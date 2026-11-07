@@ -1,5 +1,5 @@
 // Cache per l'uso offline. La rete ha la precedenza, così gli aggiornamenti arrivano subito.
-const CACHE = "allenamento-v2";
+const CACHE = "allenamento-v3";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS))); self.skipWaiting(); });
 self.addEventListener("activate", e => {

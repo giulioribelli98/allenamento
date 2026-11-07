@@ -288,6 +288,13 @@ function merge(a,b){
  var w=a.startAt>=b.startAt?a:b;out.startDate=w.startDate;out.startAt=w.startAt;
  out.updatedAt=Math.max(a.updatedAt,b.updatedAt);return out}
 function saveLocal(){ls("all-state",JSON.stringify(st))}
+/* Correzioni una tantum ai dati, applicate una volta per dispositivo */
+var PATCHES=[
+ {id:"p1-corse-sett1",runs:{r0_0:{done:true,date:"2026-11-05"},r0_1:{done:true,date:"2026-11-06"}}}
+];
+(function(){var applied=[];try{applied=JSON.parse(ls("all-patches")||"[]")}catch(e){}var ch=false;
+ PATCHES.forEach(function(p){if(applied.indexOf(p.id)>=0)return;Object.keys(p.runs||{}).forEach(function(k){var o=clone(st.runs[k]||{}),n=p.runs[k];Object.keys(n).forEach(function(f){o[f]=n[f]});o.u=Date.now();st.runs[k]=o});applied.push(p.id);ch=true});
+ if(ch){st.updatedAt=Date.now();saveLocal();ls("all-patches",JSON.stringify(applied))}})();
 function commit(){st.updatedAt=Date.now();saveLocal();schedulePush()}
 
 /* ================= SINCRONIZZAZIONE (Google Sheet) ================= */
